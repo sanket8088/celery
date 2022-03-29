@@ -2,7 +2,10 @@ from celery import Celery
 import requests
 import json
 
-app = Celery('with_celery', broker='redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = 'db+postgresql://sanket:sanket@localhost/postgres'
+# backend='db+postgresql://user:password@localhost/db_name',
+
+app = Celery('with_celery', broker='redis://localhost:6379/0', backend=CELERY_RESULT_BACKEND)
 
 
 
@@ -19,7 +22,8 @@ def fetch_url(url,name):
 def func(urls):
     print("hellloo")
     for url in range(len(urls)):
-        fetch_url.delay(urls[url], url)
+        celeryTask = fetch_url.delay(urls[url], url)
+        print(celeryTask.id)
 
 
 if __name__ == "__main__":
