@@ -1,11 +1,11 @@
 from celery import Celery
 import requests
 import json
-
+import random
 CELERY_RESULT_BACKEND = 'db+postgresql://sanket:sanket@localhost/postgres'
 # backend='db+postgresql://user:password@localhost/db_name',
 
-app = Celery('with_celery', broker='redis://localhost:6379/0', backend=CELERY_RESULT_BACKEND)
+app = Celery('with_celery', broker='redis://localhost:6379/0', result_extended=True, backend=CELERY_RESULT_BACKEND)
 
 
 
@@ -13,6 +13,7 @@ app = Celery('with_celery', broker='redis://localhost:6379/0', backend=CELERY_RE
 def fetch_url(url,name):
     data={}
     data=json.dumps(data)
+    name = random.randint(1,100)
     with open(f"{name}.json", "w") as outfile:
         outfile.write(data)
     resp = requests.get(url)
