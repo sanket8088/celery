@@ -17,6 +17,7 @@ def fetch_url(url,name):
     with open(f"{name}.json", "w") as outfile:
         outfile.write(data)
     resp = requests.get(url)
+    #add custom alerts or db changes to notify completion of project
     print(resp.status_code)
 
 
